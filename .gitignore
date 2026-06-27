@@ -1,0 +1,22 @@
+# Secrets and environment
+.env
+
+# Python
+__pycache__/
+*.pyc
+.venv/
+
+# macOS
+.DS_Store
+
+# Generated runtime data
+memory/source-cache/
+memory/history/
+memory/output/
+
+# Kimi sessions
+.kimi/sessions/
+
+# Build artifacts
+dist/
+build/

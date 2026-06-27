@@ -1,0 +1,27 @@
+[owner]
+name = "Owner"
+timezone = "Europe/Zurich"
+focus_hours_start = "09:00"
+focus_hours_end = "17:00"
+
+[sources]
+enabled = ["email", "calendar", "tasks", "web", "custom"]
+
+[sources.web]
+query = "AI agent chief of staff automation"
+
+[sources.custom]
+name = "Stripe"
+endpoint = ""
+
+[approval]
+email = "draft"
+calendar = "draft"
+tasks = "draft"
+web = "draft"
+custom = "draft"
+delivery = "draft"
+
+[delivery]
+channel = "console"
+email_to = ""

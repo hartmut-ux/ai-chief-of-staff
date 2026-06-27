@@ -1,0 +1,254 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Daily Briefing — {{date}}</title>
+  <style>
+    :root {
+      --bg: #f7f8fa;
+      --card: #ffffff;
+      --text: #1f2328;
+      --muted: #5a6573;
+      --accent: #2563eb;
+      --border: #e2e4e9;
+      --danger: #dc2626;
+    }
+    * { box-sizing: border-box; }
+    body {
+      margin: 0;
+      padding: 24px;
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+      background: var(--bg);
+      color: var(--text);
+      line-height: 1.55;
+    }
+    .container {
+      max-width: 720px;
+      margin: 0 auto;
+    }
+    header {
+      margin-bottom: 24px;
+    }
+    h1 { font-size: 1.7rem; margin: 0 0 6px; }
+    .meta { color: var(--muted); font-size: 0.9rem; }
+    .card {
+      background: var(--card);
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      padding: 18px 20px;
+      margin-bottom: 18px;
+      box-shadow: 0 1px 2px rgba(0,0,0,0.04);
+    }
+    h2 {
+      font-size: 1.1rem;
+      margin: 0 0 14px;
+      color: var(--accent);
+      text-transform: uppercase;
+      letter-spacing: 0.03em;
+    }
+    ul { margin: 0; padding-left: 18px; }
+    li { margin-bottom: 12px; }
+    li:last-child { margin-bottom: 0; }
+    .title { font-weight: 600; }
+    .summary { color: var(--muted); }
+    .action { color: var(--text); font-style: italic; }
+    a { color: var(--accent); text-decoration: none; }
+    a:hover { text-decoration: underline; }
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      font-size: 0.95rem;
+    }
+    th, td {
+      text-align: left;
+      padding: 10px 8px;
+      border-bottom: 1px solid var(--border);
+    }
+    th { color: var(--muted); font-weight: 500; }
+    .empty { color: var(--muted); font-style: italic; }
+    .error { color: var(--danger); }
+    footer {
+      margin-top: 24px;
+      color: var(--muted);
+      font-size: 0.85rem;
+      text-align: center;
+    }
+    @media (max-width: 520px) {
+      body { padding: 14px; }
+      .card { padding: 14px; }
+      table, thead, tbody, th, td, tr { display: block; }
+      th { display: none; }
+      td { padding: 6px 0; border: none; }
+      td:before {
+        content: attr(data-label);
+        display: inline-block;
+        font-weight: 600;
+        color: var(--muted);
+        width: 90px;
+      }
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <header>
+      <h1>Daily Briefing — {{date}}</h1>
+      <div class="meta">Generated at {{generated_at}} for {{user_name}}.</div>
+    </header>
+
+    <section class="card">
+      <h2>Top 3 Priorities</h2>
+      {% if top_priorities %}
+      <ul>
+        {% for item in top_priorities %}
+        <li>
+          <div class="title">{{item.priority}} — {{item.title}}</div>
+          <div class="summary">{{item.summary}}</div>
+          {% if item.proposed_action %}<div class="action">Action: {{item.proposed_action}}</div>{% endif %}
+        </li>
+        {% endfor %}
+      </ul>
+      {% else %}
+      <p class="empty">No top priorities today.</p>
+      {% endif %}
+    </section>
+
+    <section class="card">
+      <h2>Inbox Highlights</h2>
+      {% if inbox_items %}
+      <ul>
+        {% for item in inbox_items %}
+        <li>
+          <div class="title">{{item.title}} {% if item.sender %}<span class="summary">from {{item.sender}}</span>{% endif %}</div>
+          <div class="summary">{{item.summary}}</div>
+          {% if item.proposed_action %}<div class="action">Action: {{item.proposed_action}}</div>{% endif %}
+          {% if item.link %}<div><a href="{{item.link}}">Open</a></div>{% endif %}
+        </li>
+        {% endfor %}
+      </ul>
+      {% else %}
+      <p class="empty">No notable inbox items.</p>
+      {% endif %}
+    </section>
+
+    <section class="card">
+      <h2>Calendar Today</h2>
+      {% if calendar_items %}
+      <ul>
+        {% for item in calendar_items %}
+        <li>
+          <div class="title">{{item.start_at | time}} — {{item.end_at | time}}: {{item.title}} {% if item.location %}<span class="summary">({{item.location}})</span>{% endif %}</div>
+          <div class="summary">{{item.summary}}</div>
+          {% if item.proposed_action %}<div class="action">Prep: {{item.proposed_action}}</div>{% endif %}
+          {% if item.link %}<div><a href="{{item.link}}">Open</a></div>{% endif %}
+        </li>
+        {% endfor %}
+      </ul>
+      {% else %}
+      <p class="empty">No calendar events today.</p>
+      {% endif %}
+    </section>
+
+    <section class="card">
+      <h2>Tasks</h2>
+      {% if task_items %}
+      <ul>
+        {% for item in task_items %}
+        <li>
+          <div class="title">{{item.title}} {% if item.due_at %}<span class="summary">due {{item.due_at | datetime}}</span>{% endif %}</div>
+          <div class="summary">{{item.summary}}</div>
+          {% if item.proposed_action %}<div class="action">Action: {{item.proposed_action}}</div>{% endif %}
+          {% if item.link %}<div><a href="{{item.link}}">Open</a></div>{% endif %}
+        </li>
+        {% endfor %}
+      </ul>
+      {% else %}
+      <p class="empty">No open tasks.</p>
+      {% endif %}
+    </section>
+
+    <section class="card">
+      <h2>Web & News Signals</h2>
+      {% if web_items %}
+      <ul>
+        {% for item in web_items %}
+        <li>
+          <div class="title">{{item.title}} {% if item.source_name %}<span class="summary">— {{item.source_name}}</span>{% endif %}</div>
+          <div class="summary">{{item.summary}}</div>
+          {% if item.proposed_action %}<div class="action">Action: {{item.proposed_action}}</div>{% endif %}
+          {% if item.link %}<div><a href="{{item.link}}">Read more</a></div>{% endif %}
+        </li>
+        {% endfor %}
+      </ul>
+      {% else %}
+      <p class="empty">No web or news signals.</p>
+      {% endif %}
+    </section>
+
+    <section class="card">
+      <h2>Custom Source Highlights</h2>
+      {% if custom_items %}
+      <ul>
+        {% for item in custom_items %}
+        <li>
+          <div class="title">{{item.title}} {% if item.source_name %}<span class="summary">({{item.source_name}})</span>{% endif %}</div>
+          <div class="summary">{{item.summary}}</div>
+          {% if item.proposed_action %}<div class="action">Action: {{item.proposed_action}}</div>{% endif %}
+          {% if item.link %}<div><a href="{{item.link}}">Open</a></div>{% endif %}
+        </li>
+        {% endfor %}
+      </ul>
+      {% else %}
+      <p class="empty">No custom source items.</p>
+      {% endif %}
+    </section>
+
+    <section class="card">
+      <h2>Proposed Actions</h2>
+      {% if proposed_actions %}
+      <table>
+        <thead>
+          <tr>
+            <th>Item</th>
+            <th>Source</th>
+            <th>Approval</th>
+            <th>Proposed action</th>
+          </tr>
+        </thead>
+        <tbody>
+          {% for action in proposed_actions %}
+          <tr>
+            <td data-label="Item">{{action.title}}</td>
+            <td data-label="Source">{{action.source}}</td>
+            <td data-label="Approval">{{action.approval_status}}</td>
+            <td data-label="Action">{{action.proposed_action}}</td>
+          </tr>
+          {% endfor %}
+        </tbody>
+      </table>
+      {% else %}
+      <p class="empty">No actions proposed.</p>
+      {% endif %}
+      <p class="summary">Approval status: draft = show only, ask = prompt before acting, auto = act without asking.</p>
+    </section>
+
+    <section class="card">
+      <h2>Source Health</h2>
+      {% if errors %}
+      <ul>
+        {% for error in errors %}
+        <li class="error"><strong>{{error.source}}:</strong> {{error.message}} {% if error.recoverable %}(recoverable){% endif %}</li>
+        {% endfor %}
+      </ul>
+      {% else %}
+      <p class="empty">All sources fetched successfully.</p>
+      {% endif %}
+    </section>
+
+    <footer>
+      This briefing was generated by the Chief of Staff skill. Feedback improves future briefings.
+    </footer>
+  </div>
+</body>
+</html>
