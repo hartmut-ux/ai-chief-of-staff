@@ -27,7 +27,7 @@ An open-source, personal AI chief of staff that runs inside Kimi Code CLI. It pu
 
 ## Quick start
 
-1. **Clone the repo** into your Kimi workspace.
+1. **Clone the repo** into your Kimi workspace: `git clone https://github.com/hartmut-ux/ai-chief-of-staff.git`
 2. **Copy `.env.example` to `.env`** and fill in your keys and MCP names. Never commit `.env`.
 3. **Install MCP servers** for Gmail, Calendar, Notion, and Slack (see `docs/setup.md`).
 4. **Run `/chief-of-staff`** in Kimi Code CLI to generate your first briefing.

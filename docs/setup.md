@@ -7,8 +7,8 @@ Follow the official Kimi Code CLI installation guide and verify it loads in your
 ## 2. Clone the repo
 
 ```bash
-git clone https://github.com/your-org/chief-of-staff-kimi.git
-cd chief-of-staff-kimi
+git clone https://github.com/hartmut-ux/ai-chief-of-staff.git
+cd ai-chief-of-staff
 ```
 
 ## 3. Configure environment variables
@@ -56,4 +56,4 @@ Review the output, approve or reject proposed actions, and update `memory/prefer
 ## 7. Schedule it
 
 - **Local**: add a cron job or `launchd`/`systemd` task that runs `kimi /chief-of-staff`.
-- **Cloud**: enable the GitHub Actions workflow in `.github/workflows/briefing.yml` and set the repository secrets from `.env`.
+- **Cloud**: enable the GitHub Actions workflow in `.github/workflows/daily-briefing.yml` and set the repository secrets from `.env`.

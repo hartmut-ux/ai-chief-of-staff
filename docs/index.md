@@ -21,7 +21,7 @@ Your AI chief of staff reads your inbox, calendar, tasks, and web signals, then 
 
 ## Get started
 
-[Get the GitHub repo](#) — [Setup guide](setup.md)
+[Get the GitHub repo](https://github.com/hartmut-ux/ai-chief-of-staff) — [Setup guide](setup.md)
 
 ---
 
