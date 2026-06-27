@@ -1,5 +1,36 @@
 # Architecture
 
+## Core engine + thin AI skill wrappers
+
+The project is split into a single AI-agnostic engine and minimal per-assistant skill wrappers.
+
+```
+┌─────────────────────────────────────────────────────────────┐
+│                     AI frontends                             │
+│  ┌─────────────┐  ┌─────────────┐  ┌─────────────┐         │
+│  │ Kimi Code   │  │ Claude Code │  │ Codex CLI   │         │
+│  │   CLI       │  │             │  │             │         │
+│  └──────┬──────┘  └──────┬──────┘  └──────┬──────┘         │
+│         │                │                │                 │
+│         ▼                ▼                ▼                 │
+│  ┌─────────────────────────────────────────────────────┐   │
+│  │            Skill wrappers (SKILL.md)                 │   │
+│  │   .kimi/skills/chief-of-staff/                       │   │
+│  │   .claude/skills/chief-of-staff/                     │   │
+│  │   .codex/skills/chief-of-staff/                      │   │
+│  └────────────────────────┬────────────────────────────┘   │
+│                           │                                  │
+│                           ▼                                  │
+│  ┌─────────────────────────────────────────────────────┐   │
+│  │              chief_of_staff/ engine                  │   │
+│  │  connectors/ · synthesis.py · runner.py · delivery/  │   │
+│  └─────────────────────────────────────────────────────┘   │
+└─────────────────────────────────────────────────────────────┘
+```
+
+- `chief_of_staff/` contains all source connectors, synthesis logic, delivery channels, and the CLI.
+- Each skill wrapper only describes how to invoke the engine from its assistant. No business logic lives in the wrappers.
+
 ## Subagent-per-source design
 
 Each source has its own subagent. This keeps credentials isolated, failures contained, and sources easy to add or remove.
@@ -18,7 +49,7 @@ Each source has its own subagent. This keeps credentials isolated, failures cont
 2. Each source agent returns a normalized JSON object.
 3. **Synthesizer** merges results, applies priorities, and formats the briefing.
 4. **Delivery agent** renders output and executes actions based on the approval dial.
-5. Outputs are written to `memory/output/` and optionally to Notion, Slack, or email.
+5. Outputs are written to `memory/output/` and optionally to Notion, Slack, email, or Telegram.
 
 ## JSON normalization
 
@@ -58,6 +89,7 @@ Delivery routes:
 - Notion page or database entry.
 - Slack message or webhook.
 - Email via SMTP.
+- Telegram bot message.
 - Draft replies in Gmail.
 
 ## Memory loop
@@ -69,4 +101,4 @@ Delivery routes:
 
 ## GitHub Actions cloud schedule
 
-The workflow in `.github/workflows/briefing.yml` runs the briefing on a cron schedule. It uses repository secrets for all credentials and can post the result to Slack or Notion. Set `approval` categories to `auto` only for safe, read-only delivery actions in cloud runs.
+The workflow in `.github/workflows/daily-briefing.yml` runs the briefing on a cron schedule. It uses repository secrets for all credentials and can post the result to Slack, Notion, email, or Telegram. Set `approval` categories to `auto` only for safe, read-only delivery actions in cloud runs.

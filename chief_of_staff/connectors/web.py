@@ -1,5 +1,6 @@
 #!/usr/bin/env python3
 """Web search connector with optional Serper/Bing API or stub fallback."""
+
 import json
 import os
 from datetime import datetime, timezone

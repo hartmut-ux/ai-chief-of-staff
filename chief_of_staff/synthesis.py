@@ -1,12 +1,14 @@
-#!/usr/bin/env python3
-"""Synthesize cached source data into a daily briefing."""
+"""Merge, rank, and render the daily briefing."""
+
 import json
 from datetime import datetime, timezone
 from pathlib import Path
 
-import toml
-from dotenv import load_dotenv
-from jinja2 import Environment, BaseLoader
+from jinja2 import BaseLoader, Environment
+
+from . import get_project_root
+from .config import load_config
+from .memory import load_preferences
 
 DEFAULT_TEMPLATE = """# Daily Briefing for {{ owner_name }}
 
@@ -37,15 +39,13 @@ No other items.
 """
 
 
-def get_project_root() -> Path:
-    return Path(__file__).resolve().parents[4]
-
-
 def read_text_optional(path: Path) -> str:
+    """Read a text file if it exists, otherwise return an empty string."""
     return path.read_text(encoding="utf-8") if path.exists() else ""
 
 
 def _parse_dt(value):
+    """Parse an ISO 8601 string or datetime into a datetime object."""
     if not value:
         return None
     if isinstance(value, datetime):
@@ -57,23 +57,27 @@ def _parse_dt(value):
 
 
 def _time_filter(value):
+    """Jinja filter to format a value as HH:MM."""
     dt = _parse_dt(value)
     return dt.strftime("%H:%M") if dt else str(value)
 
 
 def _datetime_filter(value):
+    """Jinja filter to format a value as YYYY-MM-DD HH:MM."""
     dt = _parse_dt(value)
     return dt.strftime("%Y-%m-%d %H:%M") if dt else str(value)
 
 
 def _jinja_env():
+    """Create a minimal Jinja environment with date filters."""
     env = Environment(loader=BaseLoader())
     env.filters["time"] = _time_filter
     env.filters["datetime"] = _datetime_filter
     return env
 
 
-def load_cached_sources(root: Path):
+def load_cached_sources(root: Path) -> dict[str, dict]:
+    """Load all cached source JSON files from memory/source-cache."""
     cache_dir = root / "memory" / "source-cache"
     sources = {}
     if not cache_dir.exists():
@@ -88,7 +92,7 @@ def load_cached_sources(root: Path):
 
 def normalize_item(item: dict, source: str) -> dict:
     """Map a raw cached item to the fields the briefing template expects."""
-    normalized = {
+    return {
         "id": item.get("id", ""),
         "title": item.get("title", "Untitled"),
         "summary": item.get("summary", ""),
@@ -104,10 +108,10 @@ def normalize_item(item: dict, source: str) -> dict:
         "due_at": item.get("due_at") or item.get("due"),
         "proposed_action": "Review and act" if item.get("action_required") else None,
     }
-    return normalized
 
 
-def build_template_context(sources: dict, config: dict, root: Path):
+def build_template_context(sources: dict[str, dict], config: dict, root: Path) -> dict:
+    """Build the Jinja context used to render the briefing."""
     owner = config.get("owner", {})
     approval = config.get("approval", {})
 
@@ -169,11 +173,18 @@ def build_template_context(sources: dict, config: dict, root: Path):
                     "recoverable": True,
                 }
             )
+        elif data.get("errors"):
+            for err in data["errors"]:
+                errors.append(
+                    {
+                        "source": source_name,
+                        "message": str(err),
+                        "recoverable": True,
+                    }
+                )
 
     preferences = load_preferences(root)
-    constitution = read_text_optional(root / "constitution.md") or read_text_optional(
-        root / ".kimi" / "skills" / "chief-of-staff" / "references" / "constitution.md"
-    )
+    constitution = read_text_optional(root / "constitution.md")
 
     return {
         "date": datetime.now(timezone.utc).strftime("%Y-%m-%d"),
@@ -195,35 +206,17 @@ def build_template_context(sources: dict, config: dict, root: Path):
     }
 
 
-def load_preferences(root: Path):
-    pref_path = root / "memory" / "preferences.md"
-    if not pref_path.exists():
-        return []
-    rules = []
-    for line in pref_path.read_text(encoding="utf-8").splitlines():
-        stripped = line.strip()
-        if stripped.startswith("-") or stripped.startswith("*"):
-            rules.append(stripped.lstrip("- *").strip())
-    return rules
-
-
 def synthesize(config: dict | None = None, root: Path | None = None) -> tuple[Path, Path]:
+    """Synthesize cached source data into a daily briefing and summary."""
     if root is None:
         root = get_project_root()
     if config is None:
-        config = toml.load(root / "config" / "chief_of_staff.toml")
+        config = load_config(root)
 
     sources = load_cached_sources(root)
     context = build_template_context(sources, config, root)
 
-    template_path = (
-        root
-        / ".kimi"
-        / "skills"
-        / "chief-of-staff"
-        / "references"
-        / "briefing-template.md"
-    )
+    template_path = Path(__file__).resolve().parent / "references" / "briefing-template.md"
     if template_path.exists():
         template_src = template_path.read_text(encoding="utf-8")
     else:
@@ -258,16 +251,8 @@ def synthesize(config: dict | None = None, root: Path | None = None) -> tuple[Pa
         "constitution_present": bool(context["constitution"]),
     }
     summary_path = out_dir / "briefing-summary.json"
-    summary_path.write_text(json.dumps(summary, indent=2, ensure_ascii=False), encoding="utf-8")
+    summary_path.write_text(
+        json.dumps(summary, indent=2, ensure_ascii=False), encoding="utf-8"
+    )
 
     return briefing_path, summary_path
-
-
-if __name__ == "__main__":
-    root = get_project_root()
-    env_path = root / ".env"
-    if env_path.exists():
-        load_dotenv(env_path)
-    briefing, summary = synthesize()
-    print(f"Briefing written to {briefing}")
-    print(f"Summary written to {summary}")

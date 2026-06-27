@@ -1,15 +1,15 @@
 ---
 name: chief-of-staff
-description: Kimi Code CLI skill wrapper for the AI-agnostic chief_of_staff engine. Run a personal AI chief of staff that gathers email, calendar, tasks, web, and custom sources in parallel, synthesizes one prioritized daily briefing, and delivers it to your chosen channel.
+description: Claude Code skill wrapper for the AI-agnostic chief_of_staff engine. Run a personal AI chief of staff that gathers email, calendar, tasks, web, and custom sources in parallel, synthesizes one prioritized daily briefing, and delivers it to your chosen channel.
 ---
 
-# Chief of Staff — Kimi wrapper
+# Chief of Staff — Claude wrapper
 
-This is the **Kimi Code CLI skill wrapper** for the `chief_of_staff` Python engine. The skill is intentionally thin: all heavy logic lives in the top-level `chief_of_staff/` package. This wrapper only describes how to invoke the engine from Kimi.
+This is the **Claude Code skill wrapper** for the `chief_of_staff` Python engine. The skill is intentionally thin: all heavy logic lives in the top-level `chief_of_staff/` package. This wrapper only describes how to invoke the engine from Claude.
 
 Use this skill when the user asks for:
 - A daily briefing, morning rundown, or “what do I need to know today?”
-- `/chief-of-staff` or `/skill:chief-of-staff`
+- `/skill:chief-of-staff` or “run my chief of staff briefing”
 - Coordination across email, calendar, tasks, news, or custom data feeds
 
 ## Workflow overview
@@ -25,9 +25,9 @@ sources  →  daily-briefing.md  →  console / email / Slack / Notion / Telegra
 
 ## Phase 1: GATHER
 
-Option A — spawn parallel Kimi subagents, one per enabled source. Each subagent:
+Option A — spawn parallel Claude subagents, one per enabled source. Each subagent:
 
-1. Connects via its MCP server, API, or Kimi built-in tool.
+1. Connects via its MCP server, API, or Claude built-in tool.
 2. Fetches raw data for the configured window.
 3. Normalizes every item to the schema in `chief_of_staff/references/connectors.md`.
 4. Writes normalized JSON to `memory/source-cache/<source>.json`.
@@ -47,7 +47,7 @@ Supported sources:
 | Email     | Gmail MCP, Outlook MCP, or IMAP script               | `memory/source-cache/email.json`    |
 | Calendar  | Google Calendar MCP, Outlook Calendar MCP            | `memory/source-cache/calendar.json` |
 | Tasks     | Notion MCP, Todoist MCP, Asana API, or local tasks   | `memory/source-cache/tasks.json`    |
-| Web       | Kimi `SearchWeb` / `FetchURL`                        | `memory/source-cache/web.json`      |
+| Web       | Claude web search or a custom scraping script        | `memory/source-cache/web.json`      |
 | Custom    | User-provided API script or MCP                      | `memory/source-cache/custom.json`   |
 
 > Do not block on any single source. If one connector is slow or fails, capture the error and continue.

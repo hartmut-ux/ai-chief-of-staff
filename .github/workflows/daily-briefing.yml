@@ -44,7 +44,7 @@ jobs:
           EMAIL_TO: ${{ secrets.EMAIL_TO }}
           SLACK_WEBHOOK_URL: ${{ secrets.SLACK_WEBHOOK_URL }}
         run: |
-          python .kimi/skills/chief-of-staff/scripts/run_briefing.py --preview
+          python -m chief_of_staff run --preview
 
       - name: Upload briefing artifact
         uses: actions/upload-artifact@v4

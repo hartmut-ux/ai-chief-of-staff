@@ -5,14 +5,7 @@ focus_hours_start = "09:00"
 focus_hours_end = "17:00"
 
 [sources]
-enabled = ["email", "calendar", "tasks", "web", "custom"]
-
-[sources.web]
-query = "AI agent chief of staff automation"
-
-[sources.custom]
-name = "Stripe"
-endpoint = ""
+enabled = [ "email", "calendar", "tasks", "web", "custom",]
 
 [approval]
 email = "draft"
@@ -24,4 +17,12 @@ delivery = "draft"
 
 [delivery]
 channel = "console"
+channels = [ "console", "email", "slack", "notion", "telegram",]
 email_to = ""
+
+[sources.web]
+query = "AI agent chief of staff automation"
+
+[sources.custom]
+name = "Custom"
+endpoint = ""

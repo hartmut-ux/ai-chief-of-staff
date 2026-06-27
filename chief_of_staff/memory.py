@@ -1,20 +1,19 @@
-#!/usr/bin/env python3
-"""Simple memory manager for preferences, feedback, and decisions."""
+"""Memory management for preferences, feedback, and decisions."""
+
 from datetime import datetime, timezone
 from pathlib import Path
 
-
-def get_project_root() -> Path:
-    return Path(__file__).resolve().parents[4]
+from . import get_project_root
 
 
 def preferences_path(root: Path | None = None) -> Path:
+    """Return the path to memory/preferences.md."""
     if root is None:
         root = get_project_root()
     return root / "memory" / "preferences.md"
 
 
-def load_preferences(root: Path | None = None):
+def load_preferences(root: Path | None = None) -> list[str]:
     """Read preference rules from memory/preferences.md."""
     path = preferences_path(root)
     if not path.exists():
@@ -52,7 +51,3 @@ def record_decision(category: str, decision: str, root: Path | None = None) -> P
     with path.open("a", encoding="utf-8") as f:
         f.write(entry)
     return path
-
-
-if __name__ == "__main__":
-    print("Preferences:", load_preferences())

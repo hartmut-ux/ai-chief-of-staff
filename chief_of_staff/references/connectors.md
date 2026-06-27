@@ -1,5 +1,7 @@
 # Source Connectors
 
+The `chief_of_staff` engine is AI-agnostic. The same connectors, cache schema, and briefing pipeline are used regardless of which assistant (Kimi, Claude, Codex, or another) orchestrates the run. A connector can be triggered by the engine's own gather step, by a frontend assistant's built-in tools, or by parallel subagents spawned by any assistant.
+
 Each source subagent connects to a tool or API, fetches recent data, normalizes it, and writes a JSON cache file under `memory/source-cache/<source>.json`.
 
 ## Source JSON schema
@@ -146,7 +148,7 @@ Optional useful fields:
 
 ## Web
 
-**Connector:** Kimi `SearchWeb` / `FetchURL`, or a custom RSS/news scraping script.
+**Connector:** Assistant web-search / fetch tools (Kimi `SearchWeb` / `FetchURL`, Claude web search, Codex web search, etc.) or a custom RSS/news scraping script.
 
 **Raw data shape:** Search results, article metadata, or RSS feed entries (title, URL, snippet/published date, source).
 

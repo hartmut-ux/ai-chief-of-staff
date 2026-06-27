@@ -1,0 +1,27 @@
+[build-system]
+requires = ["hatchling"]
+build-backend = "hatchling.build"
+
+[project]
+name = "chief-of-staff"
+version = "0.1.0"
+description = "AI-agnostic personal chief-of-staff package."
+readme = "README.md"
+license = "MIT"
+requires-python = ">=3.12"
+dependencies = [
+    "requests",
+    "python-dotenv",
+    "toml",
+    "jinja2",
+    "google-auth",
+    "google-auth-oauthlib",
+    "google-auth-httplib2",
+    "google-api-python-client",
+]
+
+[project.scripts]
+chief-of-staff = "chief_of_staff.cli:main"
+
+[tool.hatch.build.targets.wheel]
+packages = ["chief_of_staff"]

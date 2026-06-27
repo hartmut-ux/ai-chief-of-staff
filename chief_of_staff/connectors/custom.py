@@ -1,5 +1,6 @@
 #!/usr/bin/env python3
 """Custom API connector with env-driven endpoint/key."""
+
 import json
 import os
 from datetime import datetime, timezone
