@@ -145,7 +145,7 @@ The SEO-optimized landing page lives in `docs/index.md` and is published via Git
 - [SEO / AI-search optimized landing page](docs/index.md) — copy for your GitHub Page.
 - [Personal Kimi setup guide](docs/setup-kimi-personal.md) — step-by-step setup for your own Mac with Kimi Code CLI.
 - [Skill portal strategy](docs/skill-portal-strategy.md) — how to publish your Claude Skills for Kimi, Claude and Codex.
-- [Skill portal template](skill-portal/) — reusable template for a multi-platform skill library.
+- [AI Skills Portal](https://github.com/hartmut-ux/ai-skills-portal) — live multi-platform skill library.
 
 ## Roadmap
 
