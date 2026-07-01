@@ -20,3 +20,4 @@ memory/output/
 # Build artifacts
 dist/
 build/
+skill-portal/
