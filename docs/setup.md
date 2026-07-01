@@ -2,6 +2,8 @@
 
 One engine, three AI frontends. Follow the section for the assistant you use, then finish the shared configuration steps.
 
+> Looking for a personal, step-by-step Kimi setup on your own Mac? See [setup-kimi-personal.md](setup-kimi-personal.md).
+
 ## 1. Clone the repo
 
 ```bash

@@ -1,0 +1,7 @@
+title: "AI Chief of Staff — Daily Briefing for Kimi, Claude & Codex"
+description: "Free, open-source AI chief of staff that delivers one prioritized daily briefing from inbox, calendar, tasks and web signals. Works with Kimi Code CLI, Claude Code and Codex CLI."
+url: "https://hartmut-ux.github.io/ai-chief-of-staff"
+baseurl: ""
+theme: minima
+header_pages:
+  - index.md

@@ -2,6 +2,8 @@
 
 An open-source, personal AI chief of staff that runs inside **Kimi Code CLI**, **Claude Code**, or **Codex**. It pulls from your inbox, calendar, tasks, web signals, and custom sources, then delivers a concise daily briefing with clear, approval-gated actions.
 
+**Live page:** https://hartmut-ux.github.io/ai-chief-of-staff
+
 One AI-agnostic engine (`chief_of_staff/`) powers all three frontends. Thin skill wrappers in `.kimi/`, `.claude/`, and `.codex/` teach each assistant how to invoke it.
 
 ## What it does
@@ -136,7 +138,14 @@ This project is released under the MIT License. You can:
 - Wrap it as a SaaS and charge for hosted orchestration.
 - Customize it for executives, investors, or agencies.
 
-A ready-to-import Lovable landing page lives in `docs/index.md`.
+The SEO-optimized landing page lives in `docs/index.md` and is published via GitHub Pages.
+
+## Additional resources
+
+- [SEO / AI-search optimized landing page](docs/index.md) — copy for your GitHub Page.
+- [Personal Kimi setup guide](docs/setup-kimi-personal.md) — step-by-step setup for your own Mac with Kimi Code CLI.
+- [Skill portal strategy](docs/skill-portal-strategy.md) — how to publish your Claude Skills for Kimi, Claude and Codex.
+- [Skill portal template](skill-portal/) — reusable template for a multi-platform skill library.
 
 ## Roadmap
 
