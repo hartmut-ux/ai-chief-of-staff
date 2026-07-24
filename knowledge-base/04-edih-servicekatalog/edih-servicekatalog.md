@@ -20,7 +20,7 @@ Dazu: **Fall-Canvas** (1 Seite, asynchron, im Erstgespräch vorbefüllt und vom 
 | «Unser Wissen liegt brach / Vertrauen & Souveränität» | **Private Knowledge AI Hub** — Small ≤10 MA | 9.860 €/Jahr (nominal 35.980 €) | 12 Deployments gesamt | WP3a, CANCOM + MMIND.ai |
 | dito — Medium ≤25 MA / Large ≤50 MA | Private Knowledge AI Hub Medium / Large | 19.320 € / 28.590 € (degressive Subvention) | s. o. | WP3a |
 | «Ein Kernprozess soll agentisch laufen» | **AI Design Sprint (2 Tage)** → **Build Week** → **AI Agent Deployment** + SaaS | 3.300 € / 460 € / 10.600 € (+320 €/Mt.) | 4 / 12 / 3 | WP3b, MMIND.ai + sl.one |
-| «Neues Geschäft / Venture» | **AI Startup Accelerator (12 Wochen, 4 Module)** | 2.175 € aus gesichertem Funding (20–30k non-dilutive via LP-Pipeline) | 10 | WP5, TaaS + MYP + MMIND.ai |
+| «Neues Geschäft / Venture» | **AI Startup Accelerator (12 Wochen, 4 Module)** | **Kostenlos für Teilnehmende** — Finanzierung über zusätzliche Fundings (20–30k non-dilutive via LP-Pipeline) | 10 | WP5, TaaS + MYP + MMIND.ai |
 | «Die ganze Organisation» | **SME Training Package** (DMA + Use Case + Prozessanalyse + Roadmap) | 6.190 € (nominal CHF 7.600) | 3–4 | WP4, MMIND.ai |
 | «Volle Transformation» | **AI-Transformation Full Programme** | 48.300 € (nominal 52.500 €) | 1 | WP3b |
 | «Weiter als Peer-Gruppe» | Kohorte als kollegiale Fallberatung (6 × 90 Min über 6 Monate) + KMU AI Café (quartalsweise, gratis, WP2) + mmind.space (gratis während Projekt) | 0 € bzw. kommerziell ausserhalb GA | — | WP2 / kommerziell |
@@ -29,7 +29,7 @@ Dazu: **Fall-Canvas** (1 Seite, asynchron, im Erstgespräch vorbefüllt und vom 
 
 1. **Kein «Mastermind» im GA-Katalog.** Die Peer-Fortsetzung läuft entweder über die WP2-Gratisformate (KMU AI Café, Thematic AI Design Sprint Community) oder als kommerzielles Angebot ausserhalb der GA-Abrechnung (Katalog-Regel 2 erlaubt das explizit).
 2. **Der Accelerator ist im Katalog nur für Startups ausgewiesen** (Target: «Startup»). Die Intrapreneurship-Nutzung (KMU schickt Teams) ist GA-seitig nicht abgedeckt — Brücke möglich über «Accelerator & Funding Expert Services nach Aufwand» (95 €/h Kundenanteil, Target ausdrücklich Startup/**SME**) oder als kommerzielle Variante. Empfehlung: Intrapreneurship-Track im nächsten PO-Change-Request als nicht-substanzielle Erweiterung aufnehmen.
-3. **Inkonsistenz beim Accelerator-Teilnehmeranteil:** Zeile 35 nennt 2.175 €, Regel 6 nennt 1.890 € — ⚠ vor externer Kommunikation zu klären.
+3. **Accelerator-Teilnehmerbeitrag:** entfällt — kostenlos für Teilnehmende; die Restkosten werden über zusätzliche Fundings gedeckt (20–30k non-dilutive via LP-Pipeline).
 
 ## KPI-Beitrag des Workshops
 
