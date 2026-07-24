@@ -1,154 +1,87 @@
-# Chief of Staff for Kimi, Claude & Codex
+# AI Chief of Staff
 
-An open-source, personal AI chief of staff that runs inside **Kimi Code CLI**, **Claude Code**, or **Codex**. It pulls from your inbox, calendar, tasks, web signals, and custom sources, then delivers a concise daily briefing with clear, approval-gated actions.
+A persistent sparring-partner skill for CEOs — the take-away skill from the **Working Systems Live** workshop (Open Innovation with AI, EDIH.li). It keeps working after the workshop day: five modes plus a weekly rhythm, grounded in the *Oxford Handbook of Open Innovation* and the CEO-Guide «Kommunikation neu gedacht 2026».
 
-**Live page:** https://hartmut-ux.github.io/ai-chief-of-staff
+## What the skill does
 
-One AI-agnostic engine (`chief_of_staff/`) powers all three frontends. Thin skill wrappers in `.kimi/`, `.claude/`, and `.codex/` teach each assistant how to invoke it.
+| Mode | What you get |
+|---|---|
+| **Sparring — Open Strategy & Open Innovation** | Structured challenge of your strategic case: knowledge-flow diagnosis (inbound / outbound / coupled), maturity check, options outside your usual search space, NIH/IKEA counter-check, one dated next step |
+| **Research kick-off** | A clean deep-research brief you can paste into any research tool: question, scope, source standard (2025/2026), visible uncertainty, success criterion |
+| **Idea generator** | Structured divergence (8–12 ideas across categories), then convergence scored on effort / impact / fit, origin-blind — every idea carries a rough benefit estimate (hours saved per month × hourly rate or CHF), the recommended one gets one metric and a 30-day check |
+| **Format supplier** | Picks and scripts the right working format: Case Clinic, Future Press Release (+ Press Conference), consent decision, Dialogue Walk, Check-in/Check-out, **Team-Cascade** — including a ready-to-send invitation text |
+| **Listening mode** | Active listening, NVC stance. No advice, no frameworks — mirroring and clarifying questions only |
+| **Friday impulse** | One useful idea per week, rotating through Open Innovation with AI, Agentic Engineering, Private Knowledge — with a 30–45 minute experiment plus a rough ROI anchor (hours or CHF, one metric, 30-day check) for the coming week |
 
-## What it does
+The skill is deliberately non-salesy. EDIH.li follow-up offers appear at most as a neutral pointer («if you want to go deeper…»).
 
-```
-┌─────────────┐   ┌─────────────┐   ┌─────────────┐   ┌─────────────┐   ┌─────────────┐
-│    Email    │   │   Calendar  │   │    Tasks    │   │     Web     │   │    Custom   │
-└──────┬──────┘   └──────┬──────┘   └──────┬──────┘   └──────┬──────┘   └──────┬──────┘
-       │                 │                 │                 │                 │
-       └─────────────────┴─────────────────┴─────────────────┴─────────────────┘
-                                         │
-                                         ▼
-                             ┌───────────────────────┐
-                             │   chief_of_staff/     │
-                             │  gather · synthesize  │
-                             └───────────┬───────────┘
-                                         │
-                                         ▼
-                             ┌───────────────────────┐
-                             │       Delivery        │
-                             │  console / email /    │
-                             │  slack / notion /     │
-                             │  telegram             │
-                             └───────────────────────┘
-```
+## The skills in this repository
 
-## Supported AI frontends
+Six skills, each in a fully self-contained `kimi` / `claude` / `codex` variant:
 
-| Assistant | Skill path | Invoke command |
-|-----------|------------|----------------|
-| **Kimi Code CLI** | `.kimi/skills/chief-of-staff/` | `/chief-of-staff` |
-| **Claude Code** | `.claude/skills/chief-of-staff/` | Skill name: `chief-of-staff` |
-| **Codex CLI** | `.codex/skills/chief-of-staff/` | Skill name: `chief-of-staff` |
+| Skill | What it does |
+|---|---|
+| **ai-chief-of-staff** | The persistent sparring partner described above — five modes plus weekly rhythm |
+| **ai-scanning-sprint** | Sharpens an ecosystem question on the CEO's strategic case and turns it into a deep-research brief |
+| **fpr-journalist** | Critical business journalist who stress-tests a Future Press Release for measurability and customer benefit |
+| **gfk-gespraechs-sparring** | Rehearses a difficult or postponed conversation — NVC-based (Rosenberg) role-play sparring |
+| **sokratischer-fall-interviewer** | Socratic five-question interview that clarifies the CEO's own case (Case Clinic warm-up) |
+| **ki-richtlinie-assistent** | Governance-light assistant: guides a CEO in 20–30 minutes to a first one-page AI policy — allowed tools, data no-gos, shadow AI, AI-Act basics in plain language, quarterly review |
 
-The same engine runs underneath every frontend, so your configuration and memory move with you.
+**The Cascade Kit idea:** the formats are built to travel one level down. With the Team-Cascade format (90 minutes), the CEO onboards their own leadership team to the workshop formats and installed skills themselves — no external trainer. New skills such as the ki-richtlinie-assistent deliberately end by pointing the CEO to that cascade step.
 
-## Supported sources and delivery channels
-
-| Sources | Delivery channels |
-|---------|-------------------|
-| Gmail | Console (terminal preview) |
-| Google Calendar | Email (SMTP) |
-| Notion tasks | Slack (webhook) |
-| Web signals | Notion page/database |
-| Custom API / RSS | Telegram bot |
-
-## Quick start
-
-1. **Clone the repo** into your workspace:
-   ```bash
-   git clone https://github.com/hartmut-ux/ai-chief-of-staff.git
-   cd ai-chief-of-staff
-   ```
-2. **Run the interactive installer:**
-   ```bash
-   python scripts/install.py
-   ```
-   On systems where `python` is not available, use `python3 scripts/install.py`.
-3. **Fill in `.env`** with your API keys, MCP names, and delivery credentials. Never commit `.env`.
-4. **Install MCP servers** for Gmail, Calendar, Notion, and Slack (see `docs/mcp-setup.md`).
-5. **Run your first briefing:**
-   ```bash
-   python -m chief_of_staff run --preview
-   ```
-   Use `python3 -m chief_of_staff run --preview` if your system does not have `python`.
-6. **Set your approval dial** in `config/chief_of_staff.toml` (`draft` → `ask` → `auto`).
-
-## Project structure
+## Repository layout
 
 ```
-.
-├── AGENTS.md                     # Project-level instructions for Kimi
-├── constitution.md               # Role, priorities, briefing format, tone
-├── README.md                     # This file
-├── LICENSE                       # MIT License
-├── .env.example                  # Template for secrets and config
-├── .gitignore                    # Excludes secrets, cache, and build artifacts
-├── config/                       # Approval dial and source settings
-├── chief_of_staff/               # AI-agnostic Python package
-│   ├── connectors/               # Source fetchers (email, calendar, tasks, web, custom)
-│   ├── delivery/                 # Delivery channels (console, email, slack, notion, telegram)
-│   ├── references/               # Connector schema and briefing template
-│   ├── assets/                   # HTML/Jinja2 rendering template
-│   ├── __main__.py               # Entry point for `python -m chief_of_staff`
-│   ├── cli.py                    # argparse CLI
-│   ├── runner.py                 # GATHER → SYNTHESIZE → DELIVER orchestrator
-│   ├── synthesis.py              # Merge, rank, and render the briefing
-│   ├── memory.py                 # Preferences and feedback management
-│   └── config.py                 # Load .env and config/chief_of_staff.toml
-├── scripts/                      # Helper scripts
-│   ├── install.py                # Interactive setup wizard
-│   └── run_briefing.py           # Backward-compatible wrapper
-├── .kimi/skills/chief-of-staff/   # Kimi skill definition
-├── .claude/skills/chief-of-staff/ # Claude skill definition
-├── .codex/skills/chief-of-staff/  # Codex skill definition
-├── .github/                      # GitHub Actions workflow
-├── memory/                       # Runtime memory, cache, history, output
-│   ├── preferences.md
-│   ├── source-cache/
-│   ├── history/
-│   └── output/
-└── docs/
-    ├── index.md                  # Landing-page copy
-    ├── setup.md                  # Step-by-step setup guide
-    ├── mcp-setup.md              # Gmail, Calendar, Notion MCP setup
-    ├── telegram-setup.md         # Telegram bot setup
-    └── architecture.md           # Architecture and data-flow docs
+skills/ai-chief-of-staff/
+├── kimi/
+│   ├── SKILL.md                  # complete, self-contained (Kimi Work)
+│   └── references/
+│       ├── open-innovation-kompakt.md
+│       └── formate-kompakt.md
+├── claude/
+│   ├── SKILL.md                  # complete, self-contained (Claude Cowork)
+│   └── references/…              # same files, included in this folder
+└── codex/
+    ├── SKILL.md                  # complete, self-contained (Codex)
+    └── references/…              # same files, included in this folder
 ```
 
-## Approval dial
+Each environment folder is **fully self-contained**: the `SKILL.md` carries the complete instructions, and its own `references/` subfolder carries the distilled source material. There are no shared folders and no cross-references outside the folder — copying one environment folder is enough. (This layout deliberately avoids the wrapper bug where a thin SKILL.md pointed to a sibling `shared/` directory that never made it into the release ZIP.)
 
-Every action category has an approval level in `config/chief_of_staff.toml`:
+## Installation (no terminal required)
 
-- **draft** — generate the message or update, show it to the user, do not send.
-- **ask** — show the action and ask for explicit yes/no before executing.
-- **auto** — execute without confirmation (use with care).
+1. Download the ZIP for your environment (`kimi`, `claude`, or `codex`) from the latest release, or copy the matching folder from this repository.
+2. Unzip it.
+3. Place the folder `ai-chief-of-staff` (the one containing `SKILL.md` and `references/`) into the custom-skills location of your desktop app:
+   - **Kimi Work**: use the skills area of the app settings.
+   - **Claude Cowork**: use the skills area of your cowork project/settings.
+   - **Codex**: use the skills location your Codex setup provides.
+4. Enable the skill in the app.
 
-Default is `draft` for all delivery actions. The dial is per category: email replies, calendar edits, task creation, Slack posts, web publishing, Telegram messages.
+The exact menu paths change between app versions. If you cannot find the skills area, ask inside the app itself (e.g. «Where do I install a custom skill folder?») — the app knows its own current layout.
 
-## Automation
+## Usage
 
-Run the agent on your laptop or in the cloud:
+Just talk to it. Examples:
 
-- **Local cron**: schedule `python -m chief_of_staff run --preview` via your OS cron or a scheduler like `launchd`/`systemd`.
-- **GitHub Actions**: use the included workflow (`.github/workflows/daily-briefing.yml`) to run the briefing on a schedule and optionally post to Slack or Notion.
+- «Sparring: Wir überlegen, unsere Wartungsverträge neu aufzusetzen — ich sehe nur interne Optionen.»
+- «Erstelle mir ein Research-Briefing zu [Thema].»
+- «Ich brauche Ideen, wie wir unser Know-how in der Branche sichtbar machen.»
+- «Welches Format passt, wenn ein Entscheid seit drei Sitzungen hängt?»
+- «Zuhören-Modus: Ich muss mir etwas von der Seele reden.»
+- «Freitag-Impuls, bitte.»
 
-## Sell it / Productize
+You can switch modes at any time («wechsle in den Ideengenerator»).
 
-This project is released under the MIT License. You can:
+## Language
 
-- Resell it as a template or private setup service.
-- Wrap it as a SaaS and charge for hosted orchestration.
-- Customize it for executives, investors, or agencies.
+Skill content and instructions are in **German** (Swiss spelling, du-form), because the target users are German-speaking CEOs. This README is in English for repository consistency.
 
-The SEO-optimized landing page lives in `docs/index.md` and is published via GitHub Pages.
+## Context and licence
 
-## Additional resources
+Built for the EDIH.li CEO workshop «Working Systems Live» by Hartmut Hübner (MMIND.ai). Sources: *Oxford Handbook of Open Innovation* (2024); «Kommunikation neu gedacht» (2021) and CEO-Guide 2026 edition. Free to use and share; not for resale.
 
-- [SEO / AI-search optimized landing page](docs/index.md) — copy for your GitHub Page.
-- [Personal Kimi setup guide](docs/setup-kimi-personal.md) — step-by-step setup for your own Mac with Kimi Code CLI.
-- [Skill portal strategy](docs/skill-portal-strategy.md) — how to publish your Claude Skills for Kimi, Claude and Codex.
-- [AI Skills Portal](https://github.com/hartmut-ux/ai-skills-portal) — live multi-platform skill library.
+## Legacy: the original AI Chief of Staff (v0)
 
-## Roadmap
-
-- **Memory loop** — learn from approvals, rejections, and recurring tasks.
-- **Drafted replies** — generate reply drafts for high-priority emails.
-- **Time blocking** — propose and optionally write focus blocks into the calendar.
+This repository started as the home of the AI Chief of Staff briefing product. That code and documentation remain untouched: `chief_of_staff/`, `scripts/`, `config/`, `memory/`, `docs/` (product docs), `AGENTS.md`, `constitution.md`, `pyproject.toml`. The original v0 README now lives at `docs/legacy-readme-v0.md`. The new `skills/` collection is the workshop-grown next generation of the same idea.
