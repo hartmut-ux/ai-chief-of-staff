@@ -17,11 +17,12 @@ The skill is deliberately non-salesy. EDIH.li follow-up offers appear at most as
 
 ## The skills in this repository
 
-Six skills, each in a fully self-contained `kimi` / `claude` / `codex` variant:
+Seven skills, each in a fully self-contained `kimi` / `claude` / `codex` variant:
 
 | Skill | What it does |
 |---|---|
 | **ai-chief-of-staff** | The persistent sparring partner described above — five modes plus weekly rhythm |
+| **deep-research** | Market research on demand: sharpens the question, researches with sources, delivers a 2-page report plus an optional one-page briefing for the leadership team |
 | **ai-scanning-sprint** | Sharpens an ecosystem question on the CEO's strategic case and turns it into a deep-research brief |
 | **fpr-journalist** | Critical business journalist who stress-tests a Future Press Release for measurability and customer benefit |
 | **gfk-gespraechs-sparring** | Rehearses a difficult or postponed conversation — NVC-based (Rosenberg) role-play sparring |
@@ -81,7 +82,3 @@ Skill content and instructions are in **German** (Swiss spelling, du-form), beca
 ## Context and licence
 
 Built for the EDIH.li CEO workshop «Working Systems Live» by Hartmut Hübner (MMIND.ai). Sources: *Oxford Handbook of Open Innovation* (2024); «Kommunikation neu gedacht» (2021) and CEO-Guide 2026 edition. Free to use and share; not for resale.
-
-## Legacy: the original AI Chief of Staff (v0)
-
-This repository started as the home of the AI Chief of Staff briefing product. That code and documentation remain untouched: `chief_of_staff/`, `scripts/`, `config/`, `memory/`, `docs/` (product docs), `AGENTS.md`, `constitution.md`, `pyproject.toml`. The original v0 README now lives at `docs/legacy-readme-v0.md`. The new `skills/` collection is the workshop-grown next generation of the same idea.
